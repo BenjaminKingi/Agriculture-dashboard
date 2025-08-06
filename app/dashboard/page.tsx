@@ -15,6 +15,12 @@ export default function DashboardPage() {
   const [activeTab, setActiveTab] = useState('dashboard');
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [currentTheme, setCurrentTheme] = useState('green');
+  const themeColorMap: Record<string, 'green' | 'blue' | 'purple' | 'orange'> = {
+  green: 'green',
+  blue: 'blue',
+  purple: 'purple',
+  orange: 'orange',
+};
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -212,7 +218,7 @@ export default function DashboardPage() {
                   change="+12.5%"
                   changeType="positive"
                   icon="ri-bar-chart-box-line"
-                  color={currentTheme}
+                  color={themeColorMap[currentTheme] || 'green'}
                 />
                 <KPICard
                   title="Active Farmers"
