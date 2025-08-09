@@ -12,6 +12,7 @@ import Infrastructure from '../../components/Dashboard/Infrastructure';
 import KPICard from '../../components/Dashboard/KPICard';
 
 export default function DashboardPage() {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [activeTab, setActiveTab] = useState('dashboard');
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [currentTheme, setCurrentTheme] = useState('green');
@@ -95,6 +96,7 @@ export default function DashboardPage() {
     };
     return themes[currentTheme as keyof typeof themes] || themes.green;
   };
+
 
   const renderContent = () => {
     switch (activeTab) {
@@ -322,10 +324,29 @@ export default function DashboardPage() {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       <div className="flex">
-        <Sidebar activeTab={activeTab} setActiveTab={setActiveTab} currentTheme={currentTheme} />
+            {/* Sidebar for desktop */}
+        <div className="hidden md:block">
+          <Sidebar activeTab={activeTab} setActiveTab={setActiveTab} currentTheme={currentTheme} />
+        </div>
+
+        {/* Mobile Sidebar (slide-in) */}
+        {sidebarOpen && (
+          <div className="fixed inset-0 z-50 flex">
+            <div className="fixed inset-0 bg-black bg-opacity-50" onClick={() => setSidebarOpen(false)}></div>
+            <div className="relative bg-white dark:bg-gray-800 w-64 shadow-lg z-50">
+              <Sidebar activeTab={activeTab} setActiveTab={setActiveTab} currentTheme={currentTheme} />
+            </div>
+          </div>
+        )}
+
         <div className="flex-1 flex flex-col min-h-screen">
-          <Header onThemeToggle={toggleTheme} isDarkMode={isDarkMode} currentTheme={currentTheme} />
-          <main className="flex-1 p-6 overflow-auto">
+          <Header
+            onThemeToggle={toggleTheme}
+            isDarkMode={isDarkMode}
+            currentTheme={currentTheme}
+            onSidebarToggle={() => setSidebarOpen(!sidebarOpen)} // NEW prop for mobile toggle
+          />
+          <main className="flex-1 p-4 sm:p-6 overflow-auto">
             {renderContent()}
           </main>
         </div>

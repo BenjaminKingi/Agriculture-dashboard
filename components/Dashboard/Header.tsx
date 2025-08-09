@@ -8,9 +8,16 @@ interface HeaderProps {
   onThemeToggle: () => void;
   isDarkMode: boolean;
   currentTheme: string;
+   onSidebarToggle: () => void; // NEW prop
 }
 
-export default function Header({ onThemeToggle, isDarkMode, currentTheme }: HeaderProps) {
+export default function Header({
+  onThemeToggle,
+  isDarkMode,
+  currentTheme,
+  onSidebarToggle
+}: HeaderProps) {
+
   const [selectedType, setSelectedType] = useState('Crop');
   const [selectedCommodity, setSelectedCommodity] = useState('Maize');
   const [selectedYear, setSelectedYear] = useState('2024');
@@ -56,6 +63,27 @@ export default function Header({ onThemeToggle, isDarkMode, currentTheme }: Head
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-6">
           <div className="flex items-center space-x-1 bg-gray-100 dark:bg-gray-700 rounded-lg p-1">
+
+                  <button
+        className="md:hidden p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
+        onClick={onSidebarToggle}
+      >
+        <i className="ri-menu-line text-xl text-gray-700 dark:text-gray-300"></i>
+      </button>
+
+      <h1 className="text-lg font-bold text-gray-900 dark:text-white">Dashboard</h1>
+
+        {/* Theme toggle button */}
+      <button
+        onClick={onThemeToggle}
+        className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
+      >
+        {isDarkMode ? (
+          <i className="ri-sun-line text-xl text-yellow-400"></i>
+        ) : (
+          <i className="ri-moon-line text-xl text-gray-700 dark:text-gray-300"></i>
+        )}
+      </button>
             <button
               onClick={() => setSelectedType('Crop')}
               className={`px-3 py-1 rounded-md text-sm font-medium transition-colors ${
@@ -146,7 +174,7 @@ export default function Header({ onThemeToggle, isDarkMode, currentTheme }: Head
               <div className={`w-8 h-8 ${getThemeClasses().bg} rounded-full flex items-center justify-center text-white text-sm font-semibold`}>
                 BK
               </div>
-              <span className="text-sm font-medium">Benjamin K</span>
+              <span className="text-sm font-medium">Benjamin</span>
               <i className="ri-arrow-down-s-line"></i>
             </button>
 
